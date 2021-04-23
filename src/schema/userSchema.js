@@ -23,7 +23,7 @@ module.exports = {
           enum: ["male", "female"],
         },
         caption: { type: ["string", "null"] },
-        avatar: { type: ["string", "null"] },
+        avartar: { type: ["string", "null"] },
         cover_image: { type: ["string", "null"] },
       },
     },
@@ -47,6 +47,17 @@ module.exports = {
       properties: {
         main: { type: "number" },
         sub: { type: "number" },
+      },
+    },
+  },
+
+  followResSchema: {
+    body: {
+      type: "object",
+      required: ["userId", "restaurantId"],
+      properties: {
+        userId: { type: "number" },
+        restaurantId: { type: "number" },
       },
     },
   },

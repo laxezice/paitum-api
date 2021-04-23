@@ -150,4 +150,14 @@ module.exports = {
       },
     },
   },
+
+  feedSchema: {
+    params: {
+      type: "object",
+      required: ["userId"],
+      properties: {
+        userId: { type: "number" },
+      },
+    },
+  },
 };

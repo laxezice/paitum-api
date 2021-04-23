@@ -8,7 +8,7 @@ const {
   Coupon,
 } = require("../models/ModelIntaillize");
 const { Sequelize } = require("../configs/dbconfig");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = {
   getAll: async (request, reply) => {
     let restautants = await Restaurant.findAll({
@@ -47,10 +47,60 @@ module.exports = {
         {
           model: Review,
           as: "userReviews",
-          include: {
-            model: ReviewIamge,
-            as: "images",
-          },
+          include: [
+            {
+              model: ReviewIamge,
+              as: "images",
+            },
+            {
+              model: User,
+              as: "reviewBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+            {
+              model: User,
+              as: "commenBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+            {
+              model: User,
+              as: "likeBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+          ],
         },
       ],
     });
@@ -169,6 +219,10 @@ module.exports = {
         id: request.params.reviewId,
       },
       include: [
+        {
+          model: ReviewIamge,
+          as: "images",
+        },
         {
           model: User,
           as: "reviewBy",
@@ -317,5 +371,101 @@ module.exports = {
       status: 400,
       message: "coupon is emty",
     };
+  },
+
+  getFollowReview: async (request, reply) => {
+    let data = request.params;
+    let user = await User.findOne({
+      where: {
+        id: data.userId,
+      },
+      include: [
+        {
+          model: User,
+          as: "following",
+          attributes: ["id"],
+        },
+        {
+          model: Restaurant,
+          as: "favRestaurants",
+          attributes: ["id"],
+        },
+      ],
+    });
+    let review = await Review.findOne({
+      attributes: ["id"],
+      order: [["createdAt", "DESC"]],
+    });
+
+    let followIds = user.following.map((u) => {
+      return u.id;
+    });
+    let favResIds = user.favRestaurants.map((r) => {
+      return r.id;
+    });
+    let ramdomIds = [1, 2, 3, 4, 5].map((r) => {
+      return Math.floor(Math.random() * review.id) + 1;
+    });
+
+    let reviews = await Review.findAll({
+      where: {
+        [Op.or]: {
+          id: ramdomIds,
+          userId: followIds,
+          restaurantId: favResIds,
+        },
+      },
+      include: [
+        {
+          model: User,
+          as: "reviewBy",
+          attributes: {
+            exclude: [
+              "password",
+              "birthday",
+              "gender",
+              "caption",
+              "coin",
+              "cover_image",
+              "createdAt",
+              "updatedAt",
+            ],
+          },
+        },
+        {
+          model: User,
+          as: "commenBy",
+          attributes: {
+            exclude: [
+              "password",
+              "birthday",
+              "gender",
+              "caption",
+              "coin",
+              "cover_image",
+              "createdAt",
+              "updatedAt",
+            ],
+          },
+        },
+        {
+          model: User,
+          as: "likeBy",
+          attributes: {
+            exclude: [
+              "password",
+              "birthday",
+              "gender",
+              "caption",
+              "coin",
+              "cover_image",
+              "createdAt",
+              "updatedAt",
+            ],
+          },
+        },
+      ],
+    });
+    return { status: 200, reviews: reviews };
   },
 };

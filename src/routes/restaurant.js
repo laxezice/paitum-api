@@ -76,5 +76,11 @@ module.exports = function (fastify, {}, done) {
     { schema: resSchema.redeemSchema },
     resController.redeem
   );
+
+  fastify.get(
+    "/feed/:userId",
+    { schema: resSchema.feedSchema },
+    resController.getFollowReview
+  );
   done();
 };

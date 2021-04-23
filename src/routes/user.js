@@ -27,6 +27,18 @@ module.exports = function (fastify, opts, done) {
     userController.unfollow
   );
 
+  fastify.put(
+    "/follow/restaurant",
+    { schema: userSchema.followResSchema },
+    userController.followRestaurant
+  );
+
+  fastify.put(
+    "/unfollow/restaurant",
+    { schema: userSchema.followResSchema },
+    userController.unfollowRestaurant
+  );
+
   fastify.get(
     "/profile",
     { schema: userSchema.profileSchema },

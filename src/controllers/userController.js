@@ -1,4 +1,4 @@
-const { User, Coupon } = require("../models/ModelIntaillize");
+const { User, Coupon, Restaurant } = require("../models/ModelIntaillize");
 module.exports = {
   getAll: async (request, reply) => {
     let users = await User.findAll({
@@ -63,10 +63,43 @@ module.exports = {
     };
   },
 
+  followRestaurant: async (request, reply) => {
+    let follower = await User.findByPk(request.body.userId);
+    let followed = await Restaurant.findByPk(request.body.restaurantId);
+    await follower.addFavRestaurants(followed);
+    return {
+      status: 200,
+      message: "follow success",
+    };
+  },
+
+  unfollowRestaurant: async (request, reply) => {
+    let follower = await User.findByPk(request.body.userId);
+    let followed = await Restaurant.findByPk(request.body.restaurantId);
+    await follower.removeFavRestaurants(followed);
+    return {
+      status: 200,
+      message: "unfollow success",
+    };
+  },
+
   profile: async (request, reply) => {
     let user = await User.findByPk(request.query.userId, {
       attributes: { exclude: ["password"] },
-      include: ["following", "follower", "coupons"],
+      include: [
+        {
+          model: User,
+          as: "following",
+          attributes: { exclude: ["password"] },
+        },
+        {
+          model: User,
+          as: "follower",
+          attributes: { exclude: ["password"] },
+        },
+        "coupons",
+        "favRestaurants",
+      ],
     });
     return {
       status: 200,

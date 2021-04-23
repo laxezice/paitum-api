@@ -6,6 +6,12 @@ const env = require("../../secret.json");
 const sequelize = new Sequelize(env.database, env.user, env.password, {
   host: env.host,
   dialect: "postgres" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 const db = {};
 db.Sequelize = Sequelize;

@@ -417,6 +417,10 @@ module.exports = {
       },
       include: [
         {
+          model: ReviewIamge,
+          as: "images",
+        },
+        {
           model: User,
           as: "reviewBy",
           attributes: {

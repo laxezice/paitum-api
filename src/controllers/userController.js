@@ -1,4 +1,10 @@
-const { User, Coupon, Restaurant } = require("../models/ModelIntaillize");
+const {
+  User,
+  Coupon,
+  Restaurant,
+  Review,
+  ReviewIamge,
+} = require("../models/ModelIntaillize");
 module.exports = {
   getAll: async (request, reply) => {
     let users = await User.findAll({
@@ -96,6 +102,64 @@ module.exports = {
           model: User,
           as: "follower",
           attributes: { exclude: ["password"] },
+        },
+        {
+          model: Review,
+          as: "myReviews",
+          include: [
+            {
+              model: ReviewIamge,
+              as: "images",
+            },
+            {
+              model: User,
+              as: "reviewBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+            {
+              model: User,
+              as: "commenBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+            {
+              model: User,
+              as: "likeBy",
+              attributes: {
+                exclude: [
+                  "password",
+                  "birthday",
+                  "gender",
+                  "caption",
+                  "coin",
+                  "cover_image",
+                  "createdAt",
+                  "updatedAt",
+                ],
+              },
+            },
+          ],
         },
         "coupons",
         "favRestaurants",

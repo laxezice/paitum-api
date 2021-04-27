@@ -82,5 +82,11 @@ module.exports = function (fastify, {}, done) {
     { schema: resSchema.feedSchema },
     resController.getFollowReview
   );
+
+  fastify.delete(
+    "/reviews/:reviewId",
+    { schema: resSchema.getReviewSchema },
+    resController.deleteReviews
+  );
   done();
 };

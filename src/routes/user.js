@@ -44,5 +44,23 @@ module.exports = function (fastify, opts, done) {
     { schema: userSchema.profileSchema },
     userController.profile
   );
+
+  fastify.put(
+    "/profile/:userId",
+    { schema: userSchema.editProfileSchema },
+    userController.editProfile
+  );
+
+  fastify.patch(
+    "/reset/:userId",
+    { schema: userSchema.resetSchema },
+    userController.resetPassword
+  );
+
+  fastify.delete(
+    "/delete/:userId",
+    { schema: userSchema.deleteSchema },
+    userController.deleteProfile
+  );
   done();
 };

@@ -472,4 +472,10 @@ module.exports = {
     });
     return { status: 200, reviews: reviews };
   },
+
+  deleteReviews: async (request, reply) => {
+    let reviews = await Review.findByPk(request.params.reviewId);
+    await reviews.destroy();
+    return { status: 200, message: "delete success" };
+  },
 };

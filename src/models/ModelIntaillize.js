@@ -89,5 +89,5 @@ Model.Coupon.belongsToMany(Model.User, {
   through: "user_coupons",
 });
 //db.sequelize.sync({ force: true });
-
+//db.sequelize.sync({ alter: true });
 module.exports = Model;

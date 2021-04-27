@@ -171,4 +171,61 @@ module.exports = {
       user: user,
     };
   },
+
+  editProfile: async (request, reply) => {
+    const data = request.body;
+    let user = await User.findByPk(request.params.userId);
+    user.firstname = data.firstname;
+    user.lastname = data.lastname;
+    user.birthday = data.birthday;
+    user.gender = data.gender;
+    user.caption = data.caption;
+    user.avartar = data.avartar;
+    user.cover_image = data.cover_image;
+    await user.save();
+    return {
+      status: 201,
+      message: "edit success",
+      user: { ...user.dataValues, password: null },
+    };
+  },
+
+  resetPassword: async (request, reply) => {
+    const data = request.body;
+    let user = await User.findByPk(request.params.userId);
+    if (user.password == data.oldPassword) {
+      if (data.newPassword == data.confirmPassword) {
+        user.password = data.newPassword;
+        await user.save();
+        return {
+          status: 201,
+          message: "change password success",
+        };
+      }
+      return {
+        status: 400,
+        message: "new password and confirm not correct",
+      };
+    } else {
+      return {
+        status: 400,
+        message: "old password incorrect",
+      };
+    }
+  },
+
+  deleteProfile: async (request, reply) => {
+    let user = await User.findByPk(request.params.userId);
+    let reviews = await Review.destroy({
+      where: {
+        userId: request.params.userId,
+      },
+    });
+    await user.destroy();
+
+    return {
+      status: 201,
+      message: "delete success",
+    };
+  },
 };

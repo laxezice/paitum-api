@@ -1,5 +1,6 @@
 module.exports = {
   registerSchema: {
+    tags: ["User"],
     body: {
       type: "object",
       required: [
@@ -30,6 +31,7 @@ module.exports = {
   },
 
   loginSchema: {
+    tags: ["User"],
     body: {
       type: "object",
       required: ["username", "password"],
@@ -41,6 +43,7 @@ module.exports = {
   },
 
   followSchema: {
+    tags: ["User"],
     body: {
       type: "object",
       required: ["main", "sub"],
@@ -52,6 +55,7 @@ module.exports = {
   },
 
   followResSchema: {
+    tags: ["User"],
     body: {
       type: "object",
       required: ["userId", "restaurantId"],
@@ -63,11 +67,79 @@ module.exports = {
   },
 
   profileSchema: {
+    tags: ["User"],
     querystring: {
       type: "object",
       required: ["userId"],
       properties: {
         userId: { type: "number" },
+      },
+    },
+  },
+
+  editProfileSchema: {
+    tags: ["User"],
+    params: {
+      type: "object",
+      required: ["userId"],
+      properties: {
+        userId: { type: "number" },
+      },
+    },
+    body: {
+      type: "object",
+      avartar: { type: ["string", "null"] },
+      required: [
+        "firstname",
+        "lastname",
+        "birthday",
+        "gender",
+        "caption",
+        "avartar",
+        "cover_image",
+      ],
+      properties: {
+        firstname: { type: "string" },
+        lastname: { type: "string" },
+        birthday: { type: "string", format: "date-time" },
+        gender: {
+          type: "string",
+          enum: ["male", "female"],
+        },
+        caption: { type: ["string", "null"] },
+        avartar: { type: ["string", "null"] },
+        cover_image: { type: ["string", "null"] },
+      },
+    },
+  },
+
+  deleteSchema: {
+    tags: ["User"],
+    params: {
+      type: "object",
+      required: ["userId"],
+      properties: {
+        userId: { type: "number" },
+      },
+    },
+  },
+
+  resetSchema: {
+    tags: ["User"],
+    params: {
+      type: "object",
+      required: ["userId"],
+      properties: {
+        userId: { type: "number" },
+      },
+    },
+    body: {
+      type: "object",
+      required: ["oldPassword", "newPassword", "confirmPassword"],
+      properties: {
+        oldPassword: { type: "string" },
+        newPassword: { type: "string" },
+        confirmPassword: { type: "string" },
       },
     },
   },

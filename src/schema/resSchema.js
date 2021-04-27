@@ -1,5 +1,6 @@
 module.exports = {
   getSchema: {
+    tags: ["Restaurant"],
     params: {
       type: "object",
       required: ["restaurantId"],
@@ -10,6 +11,7 @@ module.exports = {
   },
 
   createSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["name", "about", "avatar", "latitude", "longitude", "userId"],
@@ -26,6 +28,7 @@ module.exports = {
   },
 
   reviewSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["userId", "restaurantId", "message", "star"],
@@ -49,6 +52,7 @@ module.exports = {
   },
 
   getReviewSchema: {
+    tags: ["Restaurant"],
     params: {
       type: "object",
       required: ["reviewId"],
@@ -59,6 +63,7 @@ module.exports = {
   },
 
   commentSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["message", "userId", "reviewId"],
@@ -71,6 +76,7 @@ module.exports = {
   },
 
   likeSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["userId", "reviewId"],
@@ -82,6 +88,7 @@ module.exports = {
   },
 
   nearSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["latitude", "longitude", "radius"],
@@ -94,6 +101,7 @@ module.exports = {
   },
 
   promotionSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["name", "exp", "description", "restaurantId"],
@@ -108,6 +116,7 @@ module.exports = {
   },
 
   couponSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: [
@@ -131,6 +140,7 @@ module.exports = {
   },
 
   redeemSchema: {
+    tags: ["Restaurant"],
     body: {
       type: "object",
       required: ["userId", "couponId"],
@@ -142,6 +152,7 @@ module.exports = {
   },
 
   getPromotionSchema: {
+    tags: ["Restaurant"],
     params: {
       type: "object",
       required: ["restaurantId"],
@@ -152,6 +163,7 @@ module.exports = {
   },
 
   feedSchema: {
+    tags: ["Restaurant"],
     params: {
       type: "object",
       required: ["userId"],

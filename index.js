@@ -3,6 +3,11 @@ const { sequelize } = require("./src/configs/dbconfig");
 const fastifySwagger = require("fastify-swagger");
 // const model = require("./src/models/ModelIntaillize");
 // Declare a route
+fastify.register(require("fastify-cors"), {
+  // put your options here
+  origin: "*",
+});
+
 fastify.get("/", async (request, reply) => {
   return { hello: "test" };
 });
